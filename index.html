@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Мини-квиз</title>
+  <style>
+    body { font-family: sans-serif; background: #fcefee; color: #333; text-align: center; padding: 30px; }
+    h1 { color: #c94f7c; }
+    .question { margin: 20px 0; }
+    button { padding: 10px 20px; background: #c94f7c; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    input[type="text"], select { padding: 8px; border: 1px solid #ccc; border-radius: 5px; width: 80%; margin-top: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>Пройди мини-тест ✨</h1>
+  <form id="quizForm">
+    
+    <div class="question">
+      <label>1️⃣ Твой любимый цвет:</label><br>
+      <input type="text" name="color" required>
+    </div>
+
+    <div class="question">
+      <label>2️⃣ Что выберешь?</label><br>
+      <select name="activity" required>
+        <option value="">Выбери...</option>
+        <option value="Прогулка по парку">Прогулка по парку</option>
+        <option value="Кино">Кино</option>
+        <option value="Уютный вечер дома">Уютный вечер дома</option>
+      </select>
+    </div>
+
+    <div class="question">
+      <label>3️⃣ Какие твои любимые цветы? 🌸</label><br>
+      <input type="text" name="flowers" required>
+    </div>
+
+    <div class="question">
+      <label>4️⃣ Какой подарок тебе приятнее всего получить?</label><br>
+      <input type="text" name="gift">
+    </div>
+
+    <button type="submit">Узнать результат!</button>
+  </form>
+
+  <div id="result" style="display:none; margin-top:20px;">
+    <h2>Ты — Жасмин! Самая красивая и эффектная принцесса 👑✨</h2>
+  </div>
+
+  <script>
+    document.getElementById('quizForm').onsubmit = function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      let text = 'Новая анкета от девчонки:\n\n';
+      formData.forEach((value, key) => { text += `📌 ${key}: ${value}\n`; });
+
+      // Отправка в Telegram
+      fetch(`https://api.telegram.org/bot7682907277:AAGFRqNvmtIEfXvdqpcXW9p6IfJvyaUQQig/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: '1018783569',
+          text: text
+        })
+      });
+
+      document.getElementById('quizForm').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
